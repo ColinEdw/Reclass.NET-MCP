@@ -1,0 +1,23 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "reclass-mcp"
+version = "0.1.0"
+description = "MCP server that bridges ReClass.NET memory inspection to LLMs"
+readme = "README.md"
+license = "MIT"
+requires-python = ">=3.11"
+keywords = ["mcp", "reclass", "reverse-engineering", "memory", "llm", "claude"]
+dependencies = [
+    "mcp[cli]>=1.9.0",
+    "httpx>=0.28.0",
+    "pydantic>=2.0.0",
+]
+
+[project.scripts]
+reclass-mcp = "reclass_mcp:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/reclass_mcp"]

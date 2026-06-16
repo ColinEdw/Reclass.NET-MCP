@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "reclass": {
+      "command": "uv",
+      "args": ["run", "--directory", "/path/to/reclass-mcp", "reclass-mcp"],
+      "env": {
+        "RECLASS_BRIDGE_HOST": "127.0.0.1",
+        "RECLASS_BRIDGE_PORT": "27015"
+      }
+    }
+  }
+}

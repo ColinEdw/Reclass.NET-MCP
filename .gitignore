@@ -1,0 +1,32 @@
+__pycache__/
+*.py[cod]
+*.egg-info/
+dist/
+build/
+.eggs/
+*.egg
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Plugin build output
+plugin/ReclassMcpBridge/bin/
+plugin/ReclassMcpBridge/obj/
+plugin/.vs/
+plugin/**/*.user
+
+# IDE
+.idea/
+.vscode/
+*.suo
+*.sln.docstates
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Environment
+.env
+.env.local
