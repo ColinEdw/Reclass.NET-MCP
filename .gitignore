@@ -27,6 +27,9 @@ plugin/**/*.user
 .DS_Store
 Thumbs.db
 
+# ReClass.NET reference assembly (users provide their own)
+deps/
+
 # Environment
 .env
 .env.local
