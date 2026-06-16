@@ -176,21 +176,31 @@ cd plugin
 dotnet build -c Release
 ```
 
-This produces `ReclassMcpBridge.dll` in `plugin/ReclassMcpBridge/bin/Release/net8.0-windows/`.
+This produces `ReclassMcpBridge.dll` in `plugin/ReclassMcpBridge/bin/Release/net48/`.
 
 **c) Install into ReClass.NET**
 
-Copy the built DLL into ReClass.NET's `Plugins` folder:
+Copy the built DLL **and** its Newtonsoft.Json dependency into ReClass.NET's `Plugins` folder:
 
 ```bash
-copy ReclassMcpBridge\bin\Release\net8.0-windows\ReclassMcpBridge.dll "C:\Tools\ReClass.NET\Plugins\"
+copy ReclassMcpBridge\bin\Release\net48\ReclassMcpBridge.dll "C:\Tools\ReClass.NET\x64\Plugins\"
+copy ReclassMcpBridge\bin\Release\net48\Newtonsoft.Json.dll "C:\Tools\ReClass.NET\x64\Plugins\"
 ```
 
+> Use the `x64` folder for 64-bit games (most modern games). Use `x86` only if you need to attach to 32-bit processes.
 > If the `Plugins` folder doesn't exist, create it next to `ReClass.NET.exe`.
 
-**d) Verify the plugin loads**
+**d) Launch ReClass.NET as administrator**
 
-1. Start ReClass.NET
+ReClass.NET needs admin privileges to read other processes' memory. Right-click `ReClass.NET.exe` and select **Run as administrator**, or from PowerShell:
+
+```powershell
+Start-Process -FilePath "C:\Tools\ReClass.NET\x64\ReClass.NET.exe" -Verb RunAs
+```
+
+**e) Verify the plugin loads**
+
+1. Go to **Plugins** menu in ReClass.NET — you should see **ReclassMcpBridge** in the list
 2. Check the log/output window — you should see:
    ```
    [MCP Bridge] HTTP server listening on port 27015
@@ -236,7 +246,9 @@ Each controller translates HTTP requests into calls to ReClass.NET's internal AP
 
 | Problem | Fix |
 |---------|-----|
-| Plugin doesn't appear in ReClass.NET | Make sure the DLL is in the `Plugins/` folder next to `ReClass.NET.exe`. Check that you built for the correct .NET version. |
+| Plugin doesn't appear in ReClass.NET | ReClass.NET has strict plugin requirements: the DLL **must** have `AssemblyProduct` set to exactly `"ReClass.NET Plugin"`, the main class **must** be named `<DllName>Ext` (e.g. `ReclassMcpBridgeExt`), and the namespace **must** match the DLL name. All of this is already set up correctly in this repo — if you rename the DLL, you need to update the class name and namespace to match. |
+| Plugin still not showing | Make sure both `ReclassMcpBridge.dll` **and** `Newtonsoft.Json.dll` are in the `Plugins/` folder. A missing dependency causes silent load failure. |
+| Can't attach to game processes | Run ReClass.NET **as administrator**. Memory inspection requires elevated privileges. |
 | "Address already in use" error | Another process is using port 27015. Set `RECLASS_BRIDGE_PORT` to a different port. |
 | `curl` returns "connection refused" | ReClass.NET isn't running, or the plugin failed to load. Check the ReClass.NET log. |
 | MCP server can't reach bridge | Make sure `RECLASS_BRIDGE_HOST` and `RECLASS_BRIDGE_PORT` match between the MCP server and the plugin. |
@@ -375,8 +387,10 @@ reclass-mcp/
 ├── plugin/                  # ReClass.NET bridge plugin (C#)
 │   ├── ReclassMcpBridge.sln
 │   └── ReclassMcpBridge/
-│       ├── BridgePlugin.cs          # Plugin entry — implements ReClassNET.Plugins.Plugin
+│       ├── BridgePlugin.cs          # Plugin entry — ReclassMcpBridgeExt : Plugin
 │       ├── HttpBridgeServer.cs      # Embedded HTTP server + route dispatch
+│       ├── Properties/
+│       │   └── AssemblyInfo.cs      # AssemblyProduct = "ReClass.NET Plugin" (required)
 │       ├── Controllers/
 │       │   ├── ProcessController.cs # Process attach/detach/modules
 │       │   ├── MemoryController.cs  # Read/write/scan/pointer chains

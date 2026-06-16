@@ -7,16 +7,15 @@
     <RootNamespace>ReclassMcpBridge</RootNamespace>
     <AssemblyName>ReclassMcpBridge</AssemblyName>
     <LangVersion>latest</LangVersion>
+    <Nullable>enable</Nullable>
+    <PlatformTarget>x64</PlatformTarget>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="13.*" />
   </ItemGroup>
 
-  <!--
-    Add a reference to ReClassNET.exe or its NuGet package.
-    Adjust the path below to where your ReClass.NET install lives.
-  -->
   <ItemGroup>
     <Reference Include="ReClassNET">
       <HintPath>..\..\deps\ReClass.NET.exe</HintPath>
