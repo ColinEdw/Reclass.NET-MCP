@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "reclass": {
+      "command": "C:\\Users\\Edwards\\AppData\\Local\\Packages\\PythonSoftwareFoundation.Python.3.11_qbz5n2kfra8p0\\LocalCache\\local-packages\\Python311\\Scripts\\reclass-mcp.exe",
+      "args": [],
+      "env": {
+        "RECLASS_BRIDGE_HOST": "127.0.0.1",
+        "RECLASS_BRIDGE_PORT": "27015"
+      }
+    }
+  }
+}

@@ -7,10 +7,7 @@ from mcp.server.fastmcp import FastMCP
 from reclass_mcp.bridge import BridgeClient
 from reclass_mcp.types import DATA_TYPES, EXPORT_FORMATS
 
-mcp = FastMCP(
-    "reclass-mcp",
-    description="MCP server for ReClass.NET — inspect process memory, define structs, analyze data layouts",
-)
+mcp = FastMCP("reclass-mcp")
 
 _bridge: BridgeClient | None = None
 
